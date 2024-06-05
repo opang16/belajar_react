@@ -46,7 +46,7 @@ const App = () => {
         setResponseMessage(response.data.data[0].nama);
         setAlertVariant('success'); // Set alert variant to success for green background
       } else {
-        setResponseMessage('No data found');
+        setResponseMessage('Kain tidak ditemukan');
         setAlertVariant('warning'); // Set alert variant to warning for yellow background
       }
     } catch (error) {
