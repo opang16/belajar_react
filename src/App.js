@@ -1,8 +1,27 @@
-import React from 'react';
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if the user is authenticated
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+    navigate('/login');
+  };
+
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark" expand="lg">
@@ -19,6 +38,13 @@ function App() {
               </NavDropdown>
               <Nav.Link href="kain">Proses Kain</Nav.Link>
             </Nav>
+            {isAuthenticated && (
+              <Nav className="ml-auto">
+                <Button variant="outline-light" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </Nav>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>

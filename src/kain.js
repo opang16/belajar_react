@@ -10,12 +10,16 @@ const App = () => {
   const [selectedPola, setSelectedPola] = useState('');
   const [responseMessage, setResponseMessage] = useState('');
   const [alertVariant, setAlertVariant] = useState('info');
-  
 
   useEffect(() => {
     const fetchKetebalan = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/ketebalan');
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:8080/ketebalan', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setKetebalan(response.data);
       } catch (error) {
         console.error('Error fetching ketebalan:', error);
@@ -24,7 +28,12 @@ const App = () => {
 
     const fetchPola = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/pola');
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:8080/pola', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setPola(response.data);
       } catch (error) {
         console.error('Error fetching pola:', error);
@@ -38,10 +47,19 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/searchkain', {
-        idKetebalan: selectedKetebalan,
-        idPola: selectedPola,
-      });
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        'http://localhost:8080/searchkain',
+        {
+          idKetebalan: selectedKetebalan,
+          idPola: selectedPola,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.data.data.length > 0) {
         setResponseMessage(response.data.data[0].nama);
         setAlertVariant('success'); // Set alert variant to success for green background
