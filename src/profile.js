@@ -1,6 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import './App.css';
+
 
 
 function App() {
@@ -85,6 +88,24 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar bg="dark" variant="dark" expand="lg">
+        <Container>
+          <Navbar.Brand href="/">Ethnic Indonesia</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <NavDropdown title="Master Data" id="basic-nav-dropdown">
+                <NavDropdown.Item href="profile">Master Profile</NavDropdown.Item>
+                <NavDropdown.Item href="#ketebalan">Master Ketebalan</NavDropdown.Item>
+                <NavDropdown.Item href="#pola">Master Pola</NavDropdown.Item>
+                <NavDropdown.Item href="masterkain">Master Kain</NavDropdown.Item>
+              </NavDropdown>
+              <Nav.Link href="kain">Proses Kain</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      
   <h1>Data List</h1>
   <button onClick={() => fetchData()}>Refresh Data</button>
   <table>
