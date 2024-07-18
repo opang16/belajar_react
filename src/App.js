@@ -49,30 +49,35 @@ function App() {
         </Container>
       </Navbar>
 
-      <div className="jumbotron">
+      <div className="ethnic-jumbotron">
         <Container>
           <h1>Selamat Datang di Ethnic Indonesia</h1>
           <p>
-            Jelajahi sejarah dan ragam jenis kain tradisional dari berbagai daerah di Indonesia. 
+            Jelajahi sejarah dan ragam jenis kain tradisional dari berbagai daerah di Indonesia.
             Temukan keunikan dan kekayaan budaya kita.
           </p>
+          <Button variant="primary" href="#explore">Jelajahi Sekarang</Button>
         </Container>
       </div>
 
-      <Container>
-        <h2>Sejarah Kain di Indonesia</h2>
-        <p>
-          Indonesia memiliki sejarah panjang dalam pembuatan kain tradisional. Setiap daerah memiliki teknik dan pola khas yang mencerminkan budaya dan tradisi setempat. 
-        </p>
+      <Container className="main-content">
+        <section id="sejarah">
+          <h2>Sejarah Kain di Indonesia</h2>
+          <p>
+            Indonesia memiliki sejarah panjang dalam pembuatan kain tradisional. Setiap daerah memiliki teknik dan pola khas yang mencerminkan budaya dan tradisi setempat.
+          </p>
+        </section>
 
-        <h2>Jenis-Jenis Kain Tradisional</h2>
-        <ul>
-          <li>Batik</li>
-          <li>Tenun</li>
-          <li>Songket</li>
-          <li>Ulos</li>
-          <li>Gringsing</li>
-        </ul>
+        <section id="jenis-kain">
+          <h2>Jenis-Jenis Kain Tradisional</h2>
+          <ul>
+            <li>Batik</li>
+            <li>Tenun</li>
+            <li>Songket</li>
+            <li>Ulos</li>
+            <li>Gringsing</li>
+          </ul>
+        </section>
       </Container>
     </div>
   );
