@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navbar, Nav, NavDropdown, Container, Button, Form } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Container, Button, Form, Modal } from 'react-bootstrap';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,8 @@ function App() {
     address: '',
     numberTelepon: ''
   });
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,10 +48,13 @@ function App() {
           Authorization: `Bearer ${token}`,
         },
       });
-      setEditData({ id: response.data.id,
+      setEditData({
+        id: response.data.id,
         name: response.data.name,
         address: response.data.address,
-        numberTelepon: response.data.number_telepon});
+        numberTelepon: response.data.number_telepon
+      });
+      setShowEditModal(true);
     } catch (error) {
       console.error('Error fetching individual data:', error);
     }
@@ -68,6 +73,7 @@ function App() {
         },
       });
       fetchData();
+      setShowEditModal(false);
       setEditData({
         id: '',
         name: '',
@@ -102,6 +108,7 @@ function App() {
         },
       });
       fetchData();
+      setShowAddModal(false);
       setNewData({
         name: '',
         address: '',
@@ -144,7 +151,7 @@ function App() {
 
       <Container>
         <h1>Data List</h1>
-        <Button onClick={() => fetchData()} className="mb-3">Refresh Data</Button>
+        <Button onClick={() => setShowAddModal(true)} className="mb-3">Tambah Data</Button>
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -168,45 +175,14 @@ function App() {
             ))}
           </tbody>
         </table>
+      </Container>
 
-        {editData.id && (
-          <div className="mb-5">
-            <h2>Edit Data</h2>
-            <Form>
-              <Form.Group controlId="formEditName">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Name"
-                  value={editData.name}
-                  onChange={(e) => setEditData({ ...editData, name: e.target.value })}
-                />
-              </Form.Group>
-              <Form.Group controlId="formEditAddress">
-                <Form.Label>Address</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Address"
-                  value={editData.address}
-                  onChange={(e) => setEditData({ ...editData, address: e.target.value })}
-                />
-              </Form.Group>
-              <Form.Group controlId="formEditPhoneNumber">
-                <Form.Label>Phone Number</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Phone Number"
-                  value={editData.numberTelepon}
-                  onChange={(e) => setEditData({ ...editData, numberTelepon: e.target.value })}
-                />
-              </Form.Group>
-              <Button variant="primary" onClick={handleSaveEdit}>Save Changes</Button>
-            </Form>
-          </div>
-        )}
-
-        <div className="mb-5">
-          <h2>Add Data</h2>
+      {/* Modal for adding new data */}
+      <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Tambah Data</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <Form>
             <Form.Group controlId="formAddName">
               <Form.Label>Name</Form.Label>
@@ -235,10 +211,55 @@ function App() {
                 onChange={(e) => setNewData({ ...newData, numberTelepon: e.target.value })}
               />
             </Form.Group>
-            <Button variant="primary" onClick={handleAddData}>Add Data</Button>
           </Form>
-        </div>
-      </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowAddModal(false)}>Close</Button>
+          <Button variant="primary" onClick={handleAddData}>Save Changes</Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal for editing data */}
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Data</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="formEditName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Name"
+                value={editData.name}
+                onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group controlId="formEditAddress">
+              <Form.Label>Address</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Address"
+                value={editData.address}
+                onChange={(e) => setEditData({ ...editData, address: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group controlId="formEditPhoneNumber">
+              <Form.Label>Phone Number</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Phone Number"
+                value={editData.numberTelepon}
+                onChange={(e) => setEditData({ ...editData, numberTelepon: e.target.value })}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>Close</Button>
+          <Button variant="primary" onClick={handleSaveEdit}>Save Changes</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
